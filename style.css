@@ -100,4 +100,13 @@ footer {
     outline: none;
     border-color: var(--mikado-yellow);
 }
+#taskForm input[type="date"] {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#taskForm input[type="date"]:focus {
+    outline: none;
+    border-color: var(--mikado-yellow);
+}
 

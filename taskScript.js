@@ -35,7 +35,7 @@ class TaskScript extends HTMLElement {
         newTask.innerHTML = `
             <input type="checkbox" id="${taskId}">
             <label for="${taskId}">${newTaskText}</label>
-            <label>${newTaskText} - Created: ${dateMade}${dueDate ? ` - Due: ${dueDate}` : ''}</label>
+            <label>${dueDate ? `Due: ${new Date(dueDate).toLocaleDateString()}` : ''}</label>
             <button class="editBtn">Edit</button>
             <button class="deleteBtn">Delete</button>
         `;
@@ -52,9 +52,16 @@ class TaskScript extends HTMLElement {
 
 
     editTask(taskId, taskText) {
+        const taskLabel = this.shadowRoot.querySelector(`#${taskId} + label`);
+        const newTaskText = prompt('Edit task:', taskText);
+
+        if (newTaskText !== null) {
+            taskLabel.textContent = newTaskText;
+        }
     }
 
     deleteTask(taskElement) {
+        taskElement.remove();
     }
 }
 
