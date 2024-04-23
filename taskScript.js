@@ -11,8 +11,8 @@ class TaskScript extends HTMLElement {
                 <button type="submit">Add Task</button>
             </form>
             <div id="modal" class="modal">
+                <span class="close-modal">&times;</span>
                 <div class="modal-content">
-                    <span class="close-modal">&times;</span>
                     <form id="modalForm">
                         <label for="taskDescription">Task Description:</label>
                         <input type="text" id="taskDescription" name="taskDescription">

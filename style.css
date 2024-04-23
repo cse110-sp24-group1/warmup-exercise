@@ -35,8 +35,7 @@ footer {
     bottom: 0;
     width: 100%;
 } 
-
-section .taskItem {
+.taskItem {
     margin-left: 5em;
     margin-right: 5em;
     margin-bottom: 1em;
@@ -47,20 +46,20 @@ section .taskItem {
     padding: 10px;
     transition: background-color 0.3s;
 }
-section .taskItem:hover {
+.taskItem:hover {
     background-color: var(--yale-blue);
 }
-section .taskItem input[type="checkbox"] {
+.taskItem input[type="checkbox"] {
     margin-right: 10px;
 }
-section .taskItem label {
+.taskItem label {
     flex-grow: 1;
 }
-section .taskItem input[type="checkbox"]:checked ~ * {
+.taskItem input[type="checkbox"]:checked ~ * {
     opacity: 0.5;
     pointer-events: none;
 }
-section .taskItem button {
+.taskItem button {
     background-color: var(--gold);
     color: var(--rich-black);
     padding: 5px 10px;
@@ -70,7 +69,7 @@ section .taskItem button {
     margin-left: 10px;
     transition: background-color 0.3s;
 }
-section .taskItem button:hover {
+.taskItem button:hover {
     background-color: var(--mikado-yellow); 
 }
 
@@ -100,4 +99,22 @@ section .taskItem button:hover {
     outline: none;
     border-color: var(--mikado-yellow);
 }
-
+#modal.modal{
+    width:30%;
+    height:50%;
+    background-color:var(--yale-blue);
+    border-radius: 10px;
+    display:flex;
+    align-items:center;
+}
+#modal{
+    position:absolute;
+    background-color:var(--yale-blue);
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    
+}
+#modal.modal span.close-modal{
+    text-align:right;
+}
