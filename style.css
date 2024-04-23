@@ -1,28 +1,103 @@
+:root {
+    --rich-black: #000814ff;
+    --oxford-blue: #001d3dff;
+    --yale-blue: #003566ff;
+    --mikado-yellow: #ffc300ff;
+    --gold: #ffd60aff;
+}
 body {
+    font-family: "Cormorant Garamond", serif;
     margin: 0;
     padding: 0;
-    background-color: #F4F4F4;
+    background-color: var(--rich-black);
+    color: var(--gold);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 header {
-    background-color: lightblue;
-    color: white;
+    font-family: "Platypi", serif;
+    background-color: var(--oxford-blue);
+    color: var(--mikado-yellow);
     text-align: center;
     padding: 10px 0;
-    margin-bottom: 10px;
+    width: 100%;
 }
-
 main {
     flex: 1;
-    padding-bottom: 60px; 
-    margin-left: 10px;
+    margin: 30px;
 }
-
 footer {
-    background-color: lightblue;
-    color: white;
+    background-color: var(--oxford-blue);
+    color: var(--mikado-yellow);
     text-align: center;
     padding: 10px 0;
+    bottom: 0;
+    width: 100%;
+} 
+
+.taskItem {
+    margin-left: 5em;
+    margin-right: 5em;
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid white;
+    padding: 10px;
+    transition: background-color 0.3s;
 }
+.taskItem:hover {
+    background-color: var(--yale-blue);
+}
+.taskItem input[type="checkbox"] {
+    margin-right: 10px;
+}
+.taskItem label {
+    flex-grow: 1;
+}
+.taskItem input[type="checkbox"]:checked ~ * {
+    opacity: 0.5;
+    pointer-events: none;
+}
+.taskItem button {
+    background-color: var(--gold);
+    color: var(--rich-black);
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+.taskItem button:hover {
+    background-color: var(--mikado-yellow); 
+}
+
+#taskForm {
+    display: flex;
+    justify-content: center;
+}
+#taskForm button {
+    margin-left: 10px;
+    background-color: var(--gold);
+    color: var(--rich-black);
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#taskForm button:hover {
+    background-color: var(--mikado-yellow);
+}
+#taskForm input[type="text"] {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#taskForm input[type="text"]:focus {
+    outline: none;
+    border-color: var(--mikado-yellow);
+}
+
