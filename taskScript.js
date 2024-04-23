@@ -18,6 +18,8 @@ class TaskScript extends HTMLElement {
             event.preventDefault();
             this.addTask();
         });
+
+        this.loadTasks();
     }
 
     addTask() {
@@ -38,8 +40,11 @@ class TaskScript extends HTMLElement {
         const deleteBtn = newTask.querySelector('.deleteBtn');
         editBtn.addEventListener('click', () => this.editTask(taskId, newTaskText));
         deleteBtn.addEventListener('click', () => this.deleteTask(newTask));
-
+        
         this.taskContainer.appendChild(newTask);
+
+        this.saveTasksToLocalStorage();
+
         this.newTaskInput.value = '';
     }
 
@@ -49,6 +54,31 @@ class TaskScript extends HTMLElement {
 
     deleteTask(taskElement) {
     }
+
+    saveTasksToLocalStorage() {
+        // Do mapping, so far ID and task text is mapped
+        const tasks = Array.from(this.taskContainer.children).map(task => 
+            ({id: task.querySelector('input[type="checkbox"]').id, text: task.querySelector('label').textContent}));
+        // Save tasks to local storage
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    loadTasks() {
+        // Retrieve tasks from local storage
+        const tasks = JSON.parse(localStorage.getItem('tasks'));
+        // If there are tasks in local storage, add them to the task container
+        if (tasks && tasks.length > 0) {
+            tasks.forEach(task => {
+                this.newTaskInput.value = task.text;
+                this.addTask();
+            });
+        }
+        console.log(tasks);
+    }
+    
+
+  
+
 }
 
 window.customElements.define('task-widget', TaskScript);
