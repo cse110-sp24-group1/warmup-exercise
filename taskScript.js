@@ -8,6 +8,7 @@ class TaskScript extends HTMLElement {
             <section class="taskContainer"></section>
             <form id="taskForm" action="https://httpbin.org/post" method="POST">
                 <input type="text" id="newTaskInput" placeholder="New Task">
+                <input type="date" id="taskDueDate" placeholder="Due date (optional)">
                 <button type="submit">Add Task</button>
             </form>
             <div id="modal" class="modal">
@@ -23,6 +24,7 @@ class TaskScript extends HTMLElement {
         `;
         this.taskContainer = this.shadowRoot.querySelector('.taskContainer');
         this.newTaskInput = this.shadowRoot.getElementById('newTaskInput');
+        this.taskDueDate = this.shadowRoot.getElementById('taskDueDate');
 
         // Event listener for opening modal when submitting task form
         this.shadowRoot.getElementById('taskForm').addEventListener('submit', (event) => {
@@ -56,6 +58,8 @@ class TaskScript extends HTMLElement {
         const modalForm = this.shadowRoot.getElementById('modalForm');
         const taskDescriptionInput = modalForm.querySelector('#taskDescription');
         const newTaskText = taskDescriptionInput.value.trim();
+        const dueDate = this.taskDueDate.value; 
+        const dateMade = new Date().toISOString().slice(0, 10); 
 
         if (newTaskText === '') return;
 
@@ -65,6 +69,7 @@ class TaskScript extends HTMLElement {
         newTask.innerHTML = `
             <input type="checkbox" id="${taskId}">
             <label for="${taskId}">${newTaskText}</label>
+            <label>${newTaskText} - Created: ${dateMade}${dueDate ? ` - Due: ${dueDate}` : ''}</label>
             <button class="editBtn">Edit</button>
             <button class="deleteBtn">Delete</button>
         `;
@@ -76,7 +81,9 @@ class TaskScript extends HTMLElement {
 
         this.taskContainer.appendChild(newTask);
         taskDescriptionInput.value = '';
+        this.taskDueDate.value = '';
         this.closeModal();
+        
     }
 
     editTask(taskId, taskText) {
