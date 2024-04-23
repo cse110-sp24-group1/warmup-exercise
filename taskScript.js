@@ -3,8 +3,10 @@ class TaskScript extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+            <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800" rel="stylesheet"> 
             <section class="taskContainer"></section>
-            <form id="taskForm">
+            <form id="taskForm" action="https://httpbin.org/post" method="POST">
                 <input type="text" id="newTaskInput" placeholder="New Task">
                 <button type="submit">Add Task</button>
             </form>
@@ -24,6 +26,7 @@ class TaskScript extends HTMLElement {
 
         const taskId = `task${this.taskContainer.children.length + 1}`;
         const newTask = document.createElement('section');
+        newTask.classList.add('taskItem');
         newTask.innerHTML = `
             <input type="checkbox" id="${taskId}">
             <label for="${taskId}">${newTaskText}</label>
