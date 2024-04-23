@@ -104,8 +104,8 @@ footer {
     height:50%;
     background-color:var(--yale-blue);
     border-radius: 10px;
-    display:flex;
     align-items:center;
+    display:none;
 }
 #modal{
     position:absolute;
@@ -115,6 +115,6 @@ footer {
     transform: translate(-50%,-50%);
     
 }
-#modal.modal span.close-modal{
-    text-align:right;
+form #modalForm{
+    display:flex;
 }

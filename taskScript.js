@@ -12,9 +12,9 @@ class TaskScript extends HTMLElement {
                 <button type="submit">Add Task</button>
             </form>
             <div id="modal" class="modal">
-                <span class="close-modal">&times;</span>
                 <div class="modal-content">
                     <form id="modalForm">
+                        <span class="close-modal">&times;</span>
                         <label for="taskDescription">Task Description:</label>
                         <input type="text" id="taskDescription" name="taskDescription">
                         <button type="submit">Submit</button>
