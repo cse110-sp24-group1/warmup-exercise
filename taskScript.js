@@ -8,11 +8,13 @@ class TaskScript extends HTMLElement {
             <section class="taskContainer"></section>
             <form id="taskForm" action="https://httpbin.org/post" method="POST">
                 <input type="text" id="newTaskInput" placeholder="New Task">
+                <input type="date" id="taskDueDate" placeholder="Due date (optional)">
                 <button type="submit">Add Task</button>
             </form>
         `;
         this.taskContainer = this.shadowRoot.querySelector('.taskContainer');
         this.newTaskInput = this.shadowRoot.getElementById('newTaskInput');
+        this.taskDueDate = this.shadowRoot.getElementById('taskDueDate');
 
         this.shadowRoot.getElementById('taskForm').addEventListener('submit', (event) => {
             event.preventDefault();
@@ -24,6 +26,9 @@ class TaskScript extends HTMLElement {
 
     addTask() {
         const newTaskText = this.newTaskInput.value.trim();
+        const dueDate = this.taskDueDate.value; 
+        const dateMade = new Date().toISOString().slice(0, 10); 
+      
         if (newTaskText === '') return;
 
         const taskId = `task${this.taskContainer.children.length + 1}`;
@@ -32,6 +37,7 @@ class TaskScript extends HTMLElement {
         newTask.innerHTML = `
             <input type="checkbox" id="${taskId}">
             <label for="${taskId}">${newTaskText}</label>
+            <label>${newTaskText} - Created: ${dateMade}${dueDate ? ` - Due: ${dueDate}` : ''}</label>
             <button class="editBtn">Edit</button>
             <button class="deleteBtn">Delete</button>
         `;
@@ -46,6 +52,7 @@ class TaskScript extends HTMLElement {
         this.saveTasksToLocalStorage();
 
         this.newTaskInput.value = '';
+        this.taskDueDate.value = '';
     }
 
 
@@ -82,4 +89,3 @@ class TaskScript extends HTMLElement {
 }
 
 window.customElements.define('task-widget', TaskScript);
-
