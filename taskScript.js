@@ -80,18 +80,22 @@ class TaskScript extends HTMLElement {
         deleteBtn.addEventListener('click', () => this.deleteTask(newTask));
 
         this.taskContainer.appendChild(newTask);
-        taskDescriptionInput.value = '';
+        this.newTaskInput.value = '';
         this.taskDueDate.value = '';
-        this.closeModal();
-        
     }
 
+
     editTask(taskId, taskText) {
-        // Implement edit task functionality here
+        const taskLabel = this.shadowRoot.querySelector(`#${taskId} + label`);
+        const newTaskText = prompt('Edit task:', taskText);
+
+        if (newTaskText !== null) {
+            taskLabel.textContent = newTaskText;
+        }
     }
 
     deleteTask(taskElement) {
-        // Implement delete task functionality here
+        taskElement.remove();
     }
 }
 
