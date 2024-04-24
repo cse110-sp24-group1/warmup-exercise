@@ -8,15 +8,20 @@ class TaskScript extends HTMLElement {
             <section class="taskContainer"></section>
             <form id="taskForm" action="https://httpbin.org/post" method="POST">
                 <input type="text" id="newTaskInput" placeholder="New Task">
-                <input type="date" id="taskDueDate" placeholder="Due date (optional)">
                 <button type="submit">Add Task</button>
             </form>
             <div id="modal" class="modal">
                 <div class="modal-content">
                     <form id="modalForm">
                         <span class="close-modal">&times;</span>
-                        <label for="taskDescription">Task Description:</label>
-                        <input type="text" id="taskDescription" name="taskDescription">
+                        <div>
+                            <label for="taskDescription">Task Description:</label>
+                            <input type="text" id="taskDescription" name="taskDescription">
+                        </div>
+                        <div>
+                            <label for="taskDueDate">Task Due Date:</label>
+                            <input type="date" id="taskDueDate" placeholder="Due date (optional)">
+                        </div>
                         <button type="submit">Submit</button>
                     </form>
                 </div>
@@ -60,6 +65,7 @@ class TaskScript extends HTMLElement {
         const newTaskText = taskDescriptionInput.value.trim();
         const dueDate = this.taskDueDate.value; 
         const dateMade = new Date().toISOString().slice(0, 10); 
+        const newTaskName = this.newTaskInput.value;
 
         if (newTaskText === '') return;
 
@@ -68,15 +74,17 @@ class TaskScript extends HTMLElement {
         newTask.classList.add('taskItem');
         newTask.innerHTML = `
             <input type="checkbox" id="${taskId}">
-            <label for="${taskId}">${newTaskText}</label>
+            <label for="${taskId}">${newTaskName}</label>
             <label>${dueDate ? `Due: ${new Date(dueDate).toLocaleDateString()}` : ''}</label>
             <button class="editBtn">Edit</button>
             <button class="deleteBtn">Delete</button>
         `;
 
+        this.closeModal();
+
         const editBtn = newTask.querySelector('.editBtn');
         const deleteBtn = newTask.querySelector('.deleteBtn');
-        editBtn.addEventListener('click', () => this.editTask(taskId, newTaskText));
+        editBtn.addEventListener('click', () => this.editTask(taskId, newTaskName));
         deleteBtn.addEventListener('click', () => this.deleteTask(newTask));
 
         this.taskContainer.appendChild(newTask);
