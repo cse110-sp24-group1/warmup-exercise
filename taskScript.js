@@ -3,30 +3,33 @@ class TaskScript extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" type="text/css" href="style.css" media="screen">
-            <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800" rel="stylesheet"> 
-            <section class="taskContainer"></section>
-            <form id="taskForm" action="https://httpbin.org/post" method="POST">
-                <input type="text" id="newTaskInput" placeholder="New Task">
-                <button type="submit">Add Task</button>
-            </form>
-            <div id="modal" class="modal">
-                <div class="modal-content">
-                    <form id="modalForm">
-                        <span class="close-modal">&times;</span>
-                        <div>
-                            <label for="taskDescription">Task Description:</label>
-                            <input type="text" id="taskDescription" name="taskDescription">
-                        </div>
-                        <div>
-                            <label for="taskDueDate">Task Due Date:</label>
-                            <input type="date" id="taskDueDate" placeholder="Due date (optional)">
-                        </div>
-                        <button type="submit">Submit</button>
-                    </form>
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+        <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800" rel="stylesheet"> 
+        <section class="taskContainer"></section>
+        <form id="taskForm" action="https://httpbin.org/post" method="POST">
+            <input type="text" id="newTaskInput" placeholder="New Task">
+            <button type="submit">Add Task</button>
+        </form>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="modal-header">    
+                    <h2 class="modal-title">New Task</h2>
                 </div>
+                <form id="modalForm">
+                    <div class="modalLabelsInput"> 
+                        <label for="taskDescription">Task Description:</label>
+                        <textarea id="taskDescription" onfocus="this.value=''" name="taskDescription"></textarea>
+                    </div>
+                    <div class="modalLabelsInput">
+                        <label for="taskDueDate">Task Due Date:</label>
+                        <input type="date" id="taskDueDate" placeholder="Due date (optional)">
+                    </div>
+                    <button class="subButton" type="submit">Submit</button>
+                </form>
             </div>
-        `;
+        </div>
+    `;
         this.taskContainer = this.shadowRoot.querySelector('.taskContainer');
         this.newTaskInput = this.shadowRoot.getElementById('newTaskInput');
         this.taskDueDate = this.shadowRoot.getElementById('taskDueDate');
@@ -73,11 +76,16 @@ class TaskScript extends HTMLElement {
         const newTask = document.createElement('section');
         newTask.classList.add('taskItem');
         newTask.innerHTML = `
-            <input type="checkbox" id="${taskId}">
-            <label for="${taskId}">${newTaskName}</label>
-            <label>${dueDate ? `Due: ${new Date(dueDate).toLocaleDateString()}` : ''}</label>
-            <button class="editBtn">Edit</button>
-            <button class="deleteBtn">Delete</button>
+            <div class="taskMain">
+                <input type="checkbox" id="${taskId}">
+                <label for="${taskId}">${newTaskName}</label>
+                <label>${dueDate ? `Due: ${new Date(dueDate).toLocaleDateString()}` : ''}</label>
+                <button class="editBtn">Edit</button>
+                <button class="deleteBtn">Delete</button>
+            </div>
+            <div class="taskDesc">
+                <label>${newTaskText}</label>
+            </div>
         `;
 
         this.closeModal();

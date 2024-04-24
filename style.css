@@ -44,8 +44,8 @@ footer {
     margin-right: 5em;
     margin-bottom: 1em;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    flex-direction: column;
     border: 1px solid white;
     padding: 10px;
     transition: background-color 0.3s;
@@ -57,7 +57,7 @@ footer {
     margin-right: 10px;
 }
 .taskItem label {
-    flex-grow: 1;
+     flex-grow: 1;
 }
 .taskItem input[type="checkbox"]:checked ~ * {
     opacity: 0.5;
@@ -105,7 +105,7 @@ footer {
 }
 #modal.modal{
     width:30%;
-    height:50%;
+    height:45%;
     background-color:var(--yale-blue);
     border-radius: 10px;
     align-items:center;
@@ -117,8 +117,64 @@ footer {
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
-    
+    overflow: auto;
 }
-form #modalForm{
-    display:flex;
+#modal button:hover {
+    background-color: var(--mikado-yellow); 
+}
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0% 0% 5% 0%;
+}
+.modal-header {
+    background-color: var(--oxford-blue);
+    align-items: center;
+    border-radius: 5px;
+}
+.modal-title {
+    color: var(--gold);
+    text-align: center;
+}
+#modalForm{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex-direction: column;
+    row-gap: 1em;
+    padding: 5%;
+}
+.close-modal {
+    position: absolute;
+    font-weight: bold; 
+    top: 0%;
+    right: 4%;
+    font-size: 2.5em;
+}
+.taskMain {
+    display: flex;
+    align-items: left;
+}
+.taskDesc {
+    margin-left: 27px;
+}
+#taskDescription {
+    height: 15vh;
+    width: 15vw;
+    font-family: "Cormorant Garamond", serif;
+}
+.modalLabelsInput {
+    display: flex;
+    justify-content: space-between;
+}
+.subButton {
+    background-color: var(--gold);
+    border-radius: 5px;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: bold;
+    font-size: 1em;
+}
+#taskDueDate {
+    font-family: "Cormorant Garamond", serif;
 }
