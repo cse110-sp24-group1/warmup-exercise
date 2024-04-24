@@ -35,9 +35,10 @@ class TaskScript extends HTMLElement {
         const newTask = document.createElement('section');
         newTask.classList.add('taskItem');
         newTask.innerHTML = `
-            <input type="checkbox" id="${taskId}">
-            <label for="${taskId}">${newTaskText}</label>
-            <label>${newTaskText} - Created: ${dateMade}${dueDate ? ` - Due: ${dueDate}` : ''}</label>
+            <input class=check type="checkbox" id="${taskId}">
+            <label class=task for="${taskId}">${newTaskText}</label>
+            <label >Created: ${dateMade}${dueDate ? ` - Due: ${dueDate}` : ''}</label>
+            <label hidden class=date>${dueDate}</label>
             <button class="editBtn">Edit</button>
             <button class="deleteBtn">Delete</button>
         `;
@@ -60,12 +61,15 @@ class TaskScript extends HTMLElement {
     }
 
     deleteTask(taskElement) {
+        taskElement.remove();
+
+        this.saveTasksToLocalStorage();
     }
 
     saveTasksToLocalStorage() {
         // Do mapping, so far ID and task text is mapped
         const tasks = Array.from(this.taskContainer.children).map(task => 
-            ({id: task.querySelector('input[type="checkbox"]').id, text: task.querySelector('label').textContent}));
+            ({id: task.querySelector('input[type="checkbox"]').id, text: task.querySelector(".task").textContent, date: task.querySelector(".date").textContent, checked: (task.querySelector(".check")).checked}));
         // Save tasks to local storage
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
@@ -77,6 +81,7 @@ class TaskScript extends HTMLElement {
         if (tasks && tasks.length > 0) {
             tasks.forEach(task => {
                 this.newTaskInput.value = task.text;
+                this.taskDueDate.value = task.date;
                 this.addTask();
             });
         }
