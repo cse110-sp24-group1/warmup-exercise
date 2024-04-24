@@ -69,7 +69,7 @@ class TaskScript extends HTMLElement {
         newTask.innerHTML = `
             <input type="checkbox" id="${taskId}">
             <label for="${taskId}">${newTaskText}</label>
-            <label>${newTaskText} - Created: ${dateMade}${dueDate ? ` - Due: ${dueDate}` : ''}</label>
+            <label>${dueDate ? `Due: ${new Date(dueDate).toLocaleDateString()}` : ''}</label>
             <button class="editBtn">Edit</button>
             <button class="deleteBtn">Delete</button>
         `;
