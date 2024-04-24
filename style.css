@@ -57,7 +57,7 @@ footer {
 }
 .taskItem input[type="checkbox"]:checked ~ * {
     opacity: 0.5;
-    pointer-events: none;
+    /* pointer-events: none; */
 }
 .taskItem button {
     background-color: var(--gold);
