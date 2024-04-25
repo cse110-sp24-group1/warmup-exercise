@@ -50,6 +50,8 @@ class TaskScript extends HTMLElement {
             event.preventDefault();
             this.submitModal();
         });
+
+        this.loadTasks();
     }
 
     openModal() {
@@ -74,6 +76,7 @@ class TaskScript extends HTMLElement {
         const dueDate = this.taskDueDate.value; 
         const dateMade = new Date().toISOString().slice(0, 10); 
         const newTaskName = this.newTaskInput.value;
+        const initialCheck = false;
 
         if (newTaskText === '') return;
 
@@ -82,9 +85,10 @@ class TaskScript extends HTMLElement {
         newTask.classList.add('taskItem');
         newTask.innerHTML = `
             <div class="taskMain">
-                <input type="checkbox" id="${taskId}">
-                <label for="${taskId}">${newTaskName}</label>
+                <input class="check" type="checkbox" id="${taskId}" ${initialCheck ? `checked`: ''}>
+                <label class="task" for="${taskId}">${newTaskName}</label>
                 <label>${dueDate ? `Due: ${dueDate}` : ''}</label>
+                <label hidden class="date">${dueDate}</label>
                 <button class="editBtn">Edit</button>
                 <button class="deleteBtn">Delete</button>
             </div>
@@ -95,8 +99,10 @@ class TaskScript extends HTMLElement {
 
 
         this.closeModal();
+        const checkUpdate = newTask.querySelector('.check');
         const editBtn = newTask.querySelector('.editBtn');
         const deleteBtn = newTask.querySelector('.deleteBtn');
+        checkUpdate.addEventListener('click', () => this.saveTasksToLocalStorage());
         editBtn.addEventListener('click', () => this.editTask(taskId, newTaskName));
         deleteBtn.addEventListener('click', () => this.deleteTask(newTask));
         
@@ -106,6 +112,7 @@ class TaskScript extends HTMLElement {
 
         this.newTaskInput.value = '';
         this.taskDueDate.value = '';
+        this.initialCheck = false;
     }
 
 
@@ -127,7 +134,9 @@ class TaskScript extends HTMLElement {
     saveTasksToLocalStorage() {
         // Do mapping, so far ID and task text is mapped
         const tasks = Array.from(this.taskContainer.children).map(task => 
-            ({id: task.querySelector('input[type="checkbox"]').id, text: task.querySelector(".task").textContent, date: task.querySelector(".date").textContent, checked: (task.querySelector(".check")).checked}));
+            ({id: task.querySelector('input[type="checkbox"]').id, taskName: task.querySelector(".task").textContent, 
+            date: task.querySelector(".date").textContent, taskDesc: task.querySelector(".taskDesc > label").textContent,
+            checked: (task.querySelector(".check")).checked}));
         // Save tasks to local storage
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
@@ -138,19 +147,17 @@ class TaskScript extends HTMLElement {
         // If there are tasks in local storage, add them to the task container
         if (tasks && tasks.length > 0) {
             tasks.forEach(task => {
-                this.newTaskInput.value = task.text;
+                this.newTaskInput.value = task.taskName;
+                // The problematic assignment
+                this.taskDescription = task.taskDesc;
                 this.taskDueDate.value = task.date;
-                this.addTask();
+                this.initialCheck = task.checked;
+                this.submitModal();
             });
         }
         console.log(tasks);
     }
     
-
-  
-
-        taskElement.remove();
-    }
 }
 
 window.customElements.define('task-widget', TaskScript);
