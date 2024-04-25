@@ -36,6 +36,22 @@ footer {
 } 
 
 /* Task List */
+
+.confetti{
+    position: absolute;
+    display: block;
+    width: 3px;
+    height: 8px;
+    background: red;
+    opacity: 0
+}
+@keyframes bang {
+    from{
+        transform: translate3d(0,0,0);
+        opacity: 1;
+    }
+    
+}
 .taskContainer {
     margin-top: 1em;
 }
