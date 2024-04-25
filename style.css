@@ -201,9 +201,7 @@ footer {
     margin: 0% 0% 5% 0%;
 }
 .modal-header {
-    background-color: var(--pale-dogwood);
     align-items: center;
-    border-radius: 5px;
 }
 .modal-title {
     color: black;
