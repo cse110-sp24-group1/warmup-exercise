@@ -5,9 +5,8 @@ class TaskScript extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <link rel="stylesheet" type="text/css" href="style.css" media="screen">
         <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800" rel="stylesheet"> 
-        <section class="taskContainer"></section>
         <form id="taskForm" action="https://httpbin.org/post" method="POST">
-            <input type="text" id="newTaskInput" placeholder="New Task">
+            <input type="text" id="newTaskInput" placeholder="Add a new task...">
             <button type="submit">Add Task</button>
         </form>
         <div id="modal" class="modal">
@@ -18,17 +17,18 @@ class TaskScript extends HTMLElement {
                 </div>
                 <form id="modalForm">
                     <div class="modalLabelsInput"> 
-                        <label for="taskDescription">Task Description:</label>
+                        <label for="taskDescription">Description:</label>
                         <textarea id="taskDescription" onfocus="this.value=''" name="taskDescription"></textarea>
                     </div>
                     <div class="modalLabelsInput">
-                        <label for="taskDueDate">Task Due Date:</label>
+                        <label for="taskDueDate">Due Date:</label>
                         <input type="date" id="taskDueDate" placeholder="Due date (optional)">
                     </div>
                     <button class="subButton" type="submit">Submit</button>
                 </form>
             </div>
         </div>
+        <section class="taskContainer"></section>
     `;
         this.taskContainer = this.shadowRoot.querySelector('.taskContainer');
         this.newTaskInput = this.shadowRoot.getElementById('newTaskInput');
@@ -84,12 +84,20 @@ class TaskScript extends HTMLElement {
             <div class="taskMain">
                 <input type="checkbox" id="${taskId}">
                 <label for="${taskId}">${newTaskName}</label>
-                <label>${dueDate ? `Due: ${dueDate}` : ''}</label>
-                <button class="editBtn">Edit</button>
-                <button class="deleteBtn">Delete</button>
             </div>
             <div class="taskDesc">
                 <label>${newTaskText}</label>
+            </div>
+            <div class="taskFooter">
+                ${dueDate ? `
+                    <div class="taskDate">
+                        <label>🗓️ ${dueDate}</label>
+                    </div>
+                ` : '<div class="taskDate noDate"><label></label></div>'}
+                <div class="taskButtons">
+                    <button class="editBtn">✏️</button>
+                    <button class="deleteBtn">🗑️</button>
+                </div>
             </div>
         `;
 
