@@ -57,6 +57,8 @@ class TaskScript extends HTMLElement {
         modal.style.display = 'block'
         document.body.classList.add('modal-open'); 
 
+        const modalTitle = this.shadowRoot.querySelector('.modal-title');
+        modalTitle.textContent = this.newTaskInput.value || 'New Task';
     }
 
     closeModal() {
@@ -91,8 +93,8 @@ class TaskScript extends HTMLElement {
             </div>
         `;
 
-        this.closeModal();
 
+        this.closeModal();
         const editBtn = newTask.querySelector('.editBtn');
         const deleteBtn = newTask.querySelector('.deleteBtn');
         editBtn.addEventListener('click', () => this.editTask(taskId, newTaskName));
