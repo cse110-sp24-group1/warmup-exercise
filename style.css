@@ -69,6 +69,7 @@ footer {
     color: black;
     flex-grow: 1;
     font-size: 18px;
+    word-wrap: break-word;
 }
 .taskItem .taskDesc {
     display: flex; 
@@ -77,6 +78,8 @@ footer {
     margin-top: 5px;
     font-size: 15px;
     flex-grow: 1; 
+    word-wrap: break-word;
+    margin-left: 27px;
 }
 .taskItem .taskDesc, .taskItem .taskDate {
     margin-left: 27px;
@@ -142,8 +145,8 @@ footer {
 
 /* Modal Form */
 #modal.modal {
-    width: 30%;
-    height: 40%;
+    width: 50%;
+    height: 50%;
     background-color: var(--linen);
     border-radius: 10px;
     align-items: center;
