@@ -1,90 +1,128 @@
+/* Color Palette */
 :root {
-    --rich-black: #000814ff;
-    --oxford-blue: #001d3dff;
-    --yale-blue: #003566ff;
-    --mikado-yellow: #ffc300ff;
-    --gold: #ffd60aff;
+    --isabelline: #edede9ff;
+    --timberwolf: #cb997e;
+    --linen: #f5ebe0ff;
+    --champagne-pink: #e3d5caff;
+    --pale-dogwood: #d5bdafff;
 }
+
+/* Main Page */
 body {
-    font-family: "Cormorant Garamond", serif;
+    /* font-family: "Cormorant Garamond", serif; */
     margin: 0;
     padding: 0;
-    background-color: var(--rich-black);
-    color: var(--gold);
+    background-color: var(--isabelline);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 header {
-    font-family: "Platypi", serif;
-    background-color: var(--oxford-blue);
-    color: var(--mikado-yellow);
+    /* font-family: "Platypi", serif; */
     text-align: center;
-    padding: 10px 0;
     width: 100%;
-    border-top: 2px solid white;
-    border-bottom: 2px solid white;
+    color: black;
 }
 main {
     flex: 1;
-    margin: 30px;
+    margin: 10px;
 }
 footer {
-    background-color: var(--oxford-blue);
-    color: var(--mikado-yellow);
     text-align: center;
     padding: 10px 0;
     bottom: 0;
     width: 100%;
-    border-top: 2px solid white;
-    border-bottom: 2px solid white;
+    color: black;
 } 
+
+/* Task List */
+.taskContainer {
+    margin-top: 1em;
+}
 .taskItem {
-    margin-left: 5em;
-    margin-right: 5em;
+    margin-left: 3em;
+    margin-right: 3em;
     margin-bottom: 1em;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     border: 1px solid white;
+    border-radius: 5px;
     padding: 10px;
+    background-color: white;
     transition: background-color 0.3s;
 }
 .taskItem:hover {
-    background-color: var(--yale-blue);
+    background-color: var(--linen);
+    border: 1px solid var(--linen);
 }
 .taskItem input[type="checkbox"] {
     margin-right: 10px;
 }
-.taskItem label {
-     flex-grow: 1;
-}
 .taskItem input[type="checkbox"]:checked ~ * {
     opacity: 0.5;
-    /* pointer-events: none; */
+    pointer-events: none;
 }
-.taskItem button {
-    background-color: var(--gold);
-    color: var(--rich-black);
-    padding: 5px 10px;
-    border: none;
+.taskItem label {
+    flex-grow: 1;
+}
+.taskItem .taskMain {
+    display: flex;
+    align-items: center;
+}
+.taskItem .taskMain label {
+    color: black;
+    flex-grow: 1;
+    font-size: 18px;
+}
+.taskItem .taskDesc {
+    display: flex; 
+    align-items: center;
+    color: #666;
+    margin-top: 5px;
+    font-size: 15px;
+    flex-grow: 1; 
+}
+.taskItem .taskDesc, .taskItem .taskDate {
+    margin-left: 27px;
+}
+.taskItem .taskFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+.taskItem .taskDate {
+    border: 1px solid lightgrey;
     border-radius: 5px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s;
+    font-size: 12px;
+    padding: 2px 5px;
 }
-.taskItem button:hover {
-    background-color: var(--mikado-yellow); 
+.taskItem .noDate {
+    border: none;
+}
+.taskItem .editBtn, .taskItem .deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+    justify-content: flex-end;
+    /* filter: grayscale(100%); */ /*Makes the pencil and trashcan emoji grey*/
+}
+.taskButtons button:hover {
+    cursor: pointer;
 }
 
+/* Add a Task Form*/
 #taskForm {
     display: flex;
     justify-content: center;
 }
 #taskForm button {
     margin-left: 10px;
-    background-color: var(--gold);
-    color: var(--rich-black);
+    background-color: var(--pale-dogwood);
+    color: black;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -92,7 +130,7 @@ footer {
     transition: background-color 0.3s;
 }
 #taskForm button:hover {
-    background-color: var(--mikado-yellow);
+    background-color: var(--timberwolf);
 }
 #taskForm input[type="text"] {
     padding: 5px 10px;
@@ -101,22 +139,48 @@ footer {
 }
 #taskForm input[type="text"]:focus {
     outline: none;
-    border-color: var(--mikado-yellow);
-}
-#modal.modal{
-    width:30%;
-    height:45%;
-    background-color:var(--yale-blue);
-    border-radius: 10px;
-    align-items:center;
-    display:none;
+    border-color: var(--pale-dogwood);
 }
 
+/* Modal Form */
+#modal.modal {
+    width: 60%;
+    height: 40%;
+    background-color: var(--linen);
+    border-radius: 10px;
+    align-items: center;
+    display: none;
+    font-size: 0.8em; 
+}
+#modalForm {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    padding: 10px;
+}
+#modalForm textarea {
+    width: 90%;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 12px;
+    margin-top: 3px;
+}
+#modalForm input[type="date"] {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+#modalForm textarea:focus, #modalForm input[type="date"]:focus {
+    outline: none;
+    border-color: var(--pale-dogwood);
+}
 #modal{
-    position:absolute;
-    background-color:var(--yale-blue);
-    top:50%;
-    left:50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%,-50%);
     overflow: auto;
 }
@@ -130,34 +194,20 @@ footer {
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(2px); 
 }
-
-#modal button:hover {
-    background-color: var(--mikado-yellow); 
-}
 .modal-content {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     pointer-events: auto; 
     margin: 0% 0% 5% 0%;
 }
 .modal-header {
-    background-color: var(--oxford-blue);
+    background-color: var(--pale-dogwood);
     align-items: center;
     border-radius: 5px;
 }
 .modal-title {
-    color: var(--gold);
+    color: black;
     text-align: center;
-}
-#modalForm{
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    flex-direction: column;
-    row-gap: 1em;
-    padding: 5%;
-    z-index:9999;
 }
 .close-modal {
     position: absolute;
@@ -165,30 +215,19 @@ footer {
     top: 0%;
     right: 4%;
     font-size: 2.5em;
-}
-.taskMain {
-    display: flex;
-    align-items: left;
-}
-.taskDesc {
-    margin-left: 27px;
-}
-#taskDescription {
-    height: 15vh;
-    width: 15vw;
-    font-family: "Cormorant Garamond", serif;
-}
-.modalLabelsInput {
-    display: flex;
-    justify-content: space-between;
+    cursor: pointer;
 }
 .subButton {
-    background-color: var(--gold);
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: var(--pale-dogwood);
+    color: black;
+    border: none;
     border-radius: 5px;
-    font-family: "Cormorant Garamond", serif;
-    font-weight: bold;
-    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 10px;
 }
-#taskDueDate {
-    font-family: "Cormorant Garamond", serif;
+.subButton:hover {
+    background-color: var(--timberwolf);
 }
