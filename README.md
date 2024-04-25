@@ -1,10 +1,7 @@
 # Task Widget
 
+## Web App Link
+
 ## Youtube Link
 
-## SWOT Analysis
-### Strength
-### Weakness
-### Opportunity 
-### Threat
 
