@@ -117,7 +117,6 @@ class TaskScript extends HTMLElement {
                 newTask.style.backgroundColor = 'lightgrey';
             } else {
                 newTask.style.opacity = '';
-                newTask.style.pointerEvents = '';
                 newTask.style.backgroundColor = '';
             }
         });
