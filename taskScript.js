@@ -51,6 +51,7 @@ class TaskScript extends HTMLElement {
             this.submitModal();
         });
 
+        // Load the tasks from storage
         this.loadTasks();
     }
 
@@ -76,13 +77,19 @@ class TaskScript extends HTMLElement {
         const dueDate = this.taskDueDate.value; 
         const dateMade = new Date().toISOString().slice(0, 10); 
         const newTaskName = this.newTaskInput.value;
+        // Checkbox is unchecked by default
         const initialCheck = false;
 
-        if (newTaskText === '') return;
+        // Changed from newTaskText to newTaskName
+        // If no task name, return
+        if (newTaskName === '') return;
 
         const taskId = `task${this.taskContainer.children.length + 1}`;
         const newTask = document.createElement('section');
         newTask.classList.add('taskItem');
+        // Classes added to HTML to select elements for saving to storage
+        // Checkbox initial check adds 'checked' attribute if true, leaves blank if false.
+        // Hidden class date holds due date separately for easier parsing
         newTask.innerHTML = `
             <div class="taskMain">
                 <input class="check" type="checkbox" id="${taskId}" ${initialCheck ? `checked`: ''}>
@@ -99,17 +106,21 @@ class TaskScript extends HTMLElement {
 
 
         this.closeModal();
+        // Gets checkbox element
         const checkUpdate = newTask.querySelector('.check');
         const editBtn = newTask.querySelector('.editBtn');
         const deleteBtn = newTask.querySelector('.deleteBtn');
+        // Adds listener to check box for updating localstorage whenever checkbox is clicked
         checkUpdate.addEventListener('click', () => this.saveTasksToLocalStorage());
         editBtn.addEventListener('click', () => this.editTask(taskId, newTaskName));
         deleteBtn.addEventListener('click', () => this.deleteTask(newTask));
         
         this.taskContainer.appendChild(newTask);
 
+        // Save tasks to local storage when new task is added
         this.saveTasksToLocalStorage();
 
+        // Reset variables
         this.newTaskInput.value = '';
         this.taskDueDate.value = '';
         this.initialCheck = false;
@@ -123,6 +134,8 @@ class TaskScript extends HTMLElement {
         if (newTaskText !== null) {
             taskLabel.textContent = newTaskText;
         }
+
+        this.saveTasksToLocalStorage();
     }
 
     deleteTask(taskElement) {
@@ -132,12 +145,12 @@ class TaskScript extends HTMLElement {
     }
 
     saveTasksToLocalStorage() {
-        // Do mapping, so far ID and task text is mapped
+        // Map the container to an array
         const tasks = Array.from(this.taskContainer.children).map(task => 
             ({id: task.querySelector('input[type="checkbox"]').id, taskName: task.querySelector(".task").textContent, 
             date: task.querySelector(".date").textContent, taskDesc: task.querySelector(".taskDesc > label").textContent,
             checked: (task.querySelector(".check")).checked}));
-        // Save tasks to local storage
+        // Save tasks to local storage using a JSON
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
@@ -148,8 +161,15 @@ class TaskScript extends HTMLElement {
         if (tasks && tasks.length > 0) {
             tasks.forEach(task => {
                 this.newTaskInput.value = task.taskName;
-                // The problematic assignment
-                this.taskDescription = task.taskDesc;
+                // The problematic assignment below
+                // It is saving to local storage correctly, however I can't change the
+                // variable in the constructor like I can the other variables
+                // The reason that nothing saves is that line 83 doesn't allow
+                // a blank description... For some reason?
+                // I just realized I think that was from before we added task description.
+                // Switching it to check for a blank task name fixes this issue, everything
+                // except task description saves properly, the description just becomes blank.
+                //this.taskDescription = task.taskDesc;
                 this.taskDueDate.value = task.date;
                 this.initialCheck = task.checked;
                 this.submitModal();
