@@ -113,6 +113,7 @@ class TaskScript extends HTMLElement {
         const checkbox = newTask.querySelector('input[type="checkbox"]');
         checkbox.addEventListener('change', () => {
             if (checkbox.checked) {
+                this.animateConfetti(newTask);
                 newTask.style.opacity = '0.5';
                 newTask.style.backgroundColor = 'lightgrey';
             } else {
@@ -120,6 +121,33 @@ class TaskScript extends HTMLElement {
                 newTask.style.backgroundColor = '';
             }
         });
+    }
+    animateConfetti(target){
+        const confettiCount = 100;
+        const fragment = document.createDocumentFragment();
+
+        for(let i=0; i < confettiCount; i++){
+            const confetti = document.createElement('i');
+            confetti.classList.add('confetti');
+
+            const xPos = Math.random()*500 - 250;
+            const yPos = Math.random()*200 - 150;
+            const rotation = Math.random()*360;
+
+            confetti.style.transform = `translate3d(${xPos}px, ${yPos}px, 0) rotate(${rotation}deg)`;
+            confetti.style.backgroundColor = `hsla(${Math.random()*360}, 100%, 50%, 1)`;
+            confetti.style.animation = 'bang 700ms ease-out forwards';
+            confetti.style.opacity = '0';
+
+            fragment.appendChild(confetti);
+        }
+
+        target.appendChild(fragment);
+
+        setTimeout(() =>{
+            target.style.opacity = '0.5';
+            newTask.style.backgroundColor = 'lightgrey';
+        }, 700);
     }
 
 
