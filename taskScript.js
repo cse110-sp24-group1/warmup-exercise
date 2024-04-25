@@ -34,6 +34,9 @@ class TaskScript extends HTMLElement {
         this.newTaskInput = this.shadowRoot.getElementById('newTaskInput');
         this.taskDueDate = this.shadowRoot.getElementById('taskDueDate');
 
+        // Load tasks from local storage
+        this.loadTasks();
+
         // Event listener for opening modal when submitting task form
         this.shadowRoot.getElementById('taskForm').addEventListener('submit', (event) => {
             event.preventDefault();
@@ -73,17 +76,17 @@ class TaskScript extends HTMLElement {
         const newTaskText = taskDescriptionInput.value.trim();
         const dueDate = this.taskDueDate.value; 
         const dateMade = new Date().toISOString().slice(0, 10); 
-        const newTaskName = this.newTaskInput.value;
-
+        const newTaskName = this.newTaskInput.value.trim();
+    
         if (newTaskText === '') return;
-
+    
         const taskId = `task${this.taskContainer.children.length + 1}`;
         const newTask = document.createElement('section');
         newTask.classList.add('taskItem');
         newTask.innerHTML = `
             <div class="taskMain">
                 <input type="checkbox" id="${taskId}">
-                <label for="${taskId}">${newTaskName}</label>
+                <label for="${taskId}">${newTaskName || 'New Task'}</label>
             </div>
             <div class="taskDesc">
                 <label>${newTaskText}</label>
@@ -100,19 +103,21 @@ class TaskScript extends HTMLElement {
                 </div>
             </div>
         `;
-
-
+    
         this.closeModal();
         const editBtn = newTask.querySelector('.editBtn');
         const deleteBtn = newTask.querySelector('.deleteBtn');
         editBtn.addEventListener('click', () => this.editTask(taskId, newTaskName));
         deleteBtn.addEventListener('click', () => this.deleteTask(newTask));
-
+    
         this.taskContainer.appendChild(newTask);
         this.newTaskInput.value = '';
         this.taskDueDate.value = '';
+    
+        // Save tasks to local storage
+        this.saveTasks();
     }
-
+    
 
     editTask(taskId, taskText) {
         const taskLabel = this.shadowRoot.querySelector(`#${taskId} + label`);
@@ -120,11 +125,68 @@ class TaskScript extends HTMLElement {
 
         if (newTaskText !== null) {
             taskLabel.textContent = newTaskText;
+            this.saveTasks();
         }
     }
 
     deleteTask(taskElement) {
         taskElement.remove();
+        this.saveTasks();
+    }
+
+    saveTasks() {
+        const tasks = [];
+        this.taskContainer.querySelectorAll('.taskItem').forEach(task => {
+            const checkbox = task.querySelector('input[type="checkbox"]');
+            const label = task.querySelector('label');
+            const descLabel = task.querySelector('.taskDesc label');
+            const dateLabel = task.querySelector('.taskDate label');
+
+            tasks.push({
+                id: checkbox.id,
+                name: label.textContent,
+                description: descLabel.textContent,
+                dueDate: dateLabel.textContent.replace('🗓️ ', '') || null,
+                completed: checkbox.checked
+            });
+        });
+
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    loadTasks() {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.forEach(task => {
+            const newTask = document.createElement('section');
+            newTask.classList.add('taskItem');
+            newTask.innerHTML = `
+                <div class="taskMain">
+                    <input type="checkbox" id="${task.id}" ${task.completed ? 'checked' : ''}>
+                    <label for="${task.id}">${task.name}</label>
+                </div>
+                <div class="taskDesc">
+                    <label>${task.description}</label>
+                </div>
+                <div class="taskFooter">
+                    ${task.dueDate ? `
+                        <div class="taskDate">
+                            <label>🗓️ ${task.dueDate}</label>
+                        </div>
+                    ` : '<div class="taskDate noDate"><label></label></div>'}
+                    <div class="taskButtons">
+                        <button class="editBtn">✏️</button>
+                        <button class="deleteBtn">🗑️</button>
+                    </div>
+                </div>
+            `;
+
+            const editBtn = newTask.querySelector('.editBtn');
+            const deleteBtn = newTask.querySelector('.deleteBtn');
+            editBtn.addEventListener('click', () => this.editTask(task.id, task.name));
+            deleteBtn.addEventListener('click', () => this.deleteTask(newTask));
+
+            this.taskContainer.appendChild(newTask);
+        });
     }
 }
 
