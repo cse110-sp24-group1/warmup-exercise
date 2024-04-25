@@ -59,10 +59,6 @@ footer {
 .taskItem input[type="checkbox"] {
     margin-right: 10px;
 }
-.taskItem input[type="checkbox"]:checked ~ * {
-    opacity: 0.5;
-    pointer-events: none;
-}
 .taskItem label {
     flex-grow: 1;
 }
@@ -144,7 +140,7 @@ footer {
 
 /* Modal Form */
 #modal.modal {
-    width: 60%;
+    width: 30%;
     height: 40%;
     background-color: var(--linen);
     border-radius: 10px;

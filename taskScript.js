@@ -22,7 +22,7 @@ class TaskScript extends HTMLElement {
                     </div>
                     <div class="modalLabelsInput">
                         <label for="taskDueDate">Due Date:</label>
-                        <input type="date" id="taskDueDate" placeholder="Due date (optional)">
+                        <input type="date" id="taskDueDate">
                     </div>
                     <button class="subButton" type="submit">Submit</button>
                 </form>
@@ -49,7 +49,7 @@ class TaskScript extends HTMLElement {
         this.shadowRoot.getElementById('modalForm').addEventListener('submit', (event) => {
             event.preventDefault();
             this.submitModal();
-        });
+        });            
     }
 
     openModal() {
@@ -72,7 +72,6 @@ class TaskScript extends HTMLElement {
         const taskDescriptionInput = modalForm.querySelector('#taskDescription');
         const newTaskText = taskDescriptionInput.value.trim();
         const dueDate = this.taskDueDate.value; 
-        const dateMade = new Date().toISOString().slice(0, 10); 
         const newTaskName = this.newTaskInput.value;
 
         if (newTaskText === '') return;
@@ -101,7 +100,6 @@ class TaskScript extends HTMLElement {
             </div>
         `;
 
-
         this.closeModal();
         const editBtn = newTask.querySelector('.editBtn');
         const deleteBtn = newTask.querySelector('.deleteBtn');
@@ -111,6 +109,18 @@ class TaskScript extends HTMLElement {
         this.taskContainer.appendChild(newTask);
         this.newTaskInput.value = '';
         this.taskDueDate.value = '';
+
+        const checkbox = newTask.querySelector('input[type="checkbox"]');
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                newTask.style.opacity = '0.5';
+                newTask.style.backgroundColor = 'lightgrey';
+            } else {
+                newTask.style.opacity = '';
+                newTask.style.pointerEvents = '';
+                newTask.style.backgroundColor = '';
+            }
+        });
     }
 
 
