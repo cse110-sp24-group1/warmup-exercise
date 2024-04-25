@@ -145,13 +145,19 @@ footer {
 
 /* Modal Form */
 #modal.modal {
-    width: 50%;
-    height: 50%;
+    width: 30%;
+    height: 40%;
     background-color: var(--linen);
     border-radius: 10px;
     align-items: center;
     display: none;
     font-size: 0.9em; 
+}
+@media (max-width: 800px) {
+    #modal.modal {
+        width: 50%;
+        height: 50%;
+    }
 }
 #modalForm {
     display: flex;
