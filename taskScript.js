@@ -14,7 +14,7 @@ class TaskScript extends HTMLElement {
             <div class="modal-content">
                 <span class="close-modal">&times;</span>
                 <div class="modal-header">    
-                    <h2 class="modal-title">New Task</h2>
+                    <h2 class="modal-title"></h2>
                 </div>
                 <form id="modalForm">
                     <div class="modalLabelsInput"> 
@@ -54,12 +54,17 @@ class TaskScript extends HTMLElement {
 
     openModal() {
         const modal = this.shadowRoot.getElementById('modal');
-        modal.style.display = 'block';
+        modal.style.display = 'block'
+        document.body.classList.add('modal-open'); 
+
+        const modalTitle = this.shadowRoot.querySelector('.modal-title');
+        modalTitle.textContent = this.newTaskInput.value || 'New Task';
     }
 
     closeModal() {
         const modal = this.shadowRoot.getElementById('modal');
         modal.style.display = 'none';
+        document.body.classList.remove('modal-open'); 
     }
 
     submitModal() {
@@ -79,7 +84,7 @@ class TaskScript extends HTMLElement {
             <div class="taskMain">
                 <input type="checkbox" id="${taskId}">
                 <label for="${taskId}">${newTaskName}</label>
-                <label>${dueDate ? `Due: ${new Date(dueDate).toLocaleDateString()}` : ''}</label>
+                <label>${dueDate ? `Due: ${dueDate}` : ''}</label>
                 <button class="editBtn">Edit</button>
                 <button class="deleteBtn">Delete</button>
             </div>
@@ -88,8 +93,8 @@ class TaskScript extends HTMLElement {
             </div>
         `;
 
-        this.closeModal();
 
+        this.closeModal();
         const editBtn = newTask.querySelector('.editBtn');
         const deleteBtn = newTask.querySelector('.deleteBtn');
         editBtn.addEventListener('click', () => this.editTask(taskId, newTaskName));
