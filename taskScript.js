@@ -48,6 +48,11 @@ class TaskScript extends HTMLElement {
     }
 
     deleteTask(taskElement) {
+        /* taskElement.remove(); */
+        taskElement.classList.add('deleteTask'); // apply the fade-out effect
+        taskElement.addEventListener('animationend', function() {
+            taskElement.remove();
+        });
     }
 }
 
