@@ -27,14 +27,14 @@ class TaskScript extends HTMLElement {
                     <div class="modalLabelsInput"> 
                         <label for="taskLabel">Label:</label>
                         <select id="taskLabel" name="taskLabel">
-                            <option value="default">Select Label</option>
-                            <option value="work">Work</option>
-                            <option value="personal">Personal</option>
-                            <option value="health">Health and Fitness</option>
-                            <option value="finance">Finance</option>
-                            <option value="social">Social</option>
-                            <option value="travel">Travel</option>
-                            <option value="school">School</option>
+                            <option value="Default">Select Label</option>
+                            <option value="Work">Work</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Health and Fitness">Health and Fitness</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Social">Social</option>
+                            <option value="Travel">Travel</option>
+                            <option value="School">School</option>
                             <option value="createNew">Create New Label</option>
                         </select>
                         <input type="text" id="newLabelInput" placeholder="New Label" style="display: none;">
@@ -121,9 +121,6 @@ class TaskScript extends HTMLElement {
         newTask.classList.add('taskItem');
         newTask.dataset.label = taskLabel;
         newTask.innerHTML = `
-            <div class="taskLabel" style="background-color: ${taskColor}; border-radius: 5px; padding: 3px 6px; ${
-                this.calculateTextColor(taskColor)
-            }">${taskLabel}</div>
             <div class="taskMain">
                 <input type="checkbox" id="${taskId}">
                 <label for="${taskId}">${newTaskName}</label>
@@ -132,11 +129,16 @@ class TaskScript extends HTMLElement {
                 <label>${newTaskText}</label>
             </div>
             <div class="taskFooter">
-                ${dueDate ? `
-                    <div class="taskDate">
-                        <label>🗓️ ${dueDate}</label>
-                    </div>
-                ` : '<div class="taskDate noDate"><label></label></div>'}
+                <div class="datelabel">
+                    <div class="taskLabel" style="background-color: ${taskColor}; border-radius: 5px; padding: 3px 6px; ${
+                        this.calculateTextColor(taskColor)
+                    }">${taskLabel}</div>
+                    ${dueDate ? `
+                        <div class="taskDate">
+                            <label>🗓️ ${dueDate}</label>
+                        </div>
+                    ` : '<div class="taskDate noDate"><label></label></div>'}
+                </div>
                 <div class="taskButtons">
                     <button class="editBtn">✏️</button>
                     <button class="deleteBtn">🗑️</button>
@@ -208,7 +210,6 @@ class TaskScript extends HTMLElement {
         // If the brightness is less than 50%, return white, otherwise, return black
         return luminance < 0.5 ? 'color: white;' : '';
     }
-
 
     editTask(taskId, taskText) {
         const taskLabel = this.shadowRoot.querySelector(`#${taskId} + label`);
