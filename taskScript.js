@@ -81,13 +81,20 @@ class TaskScript extends HTMLElement {
         });
     }
 
-    openModal() {
+    openModal(editName = null) {
         const modal = this.shadowRoot.getElementById('modal');
         modal.style.display = 'block'
         document.body.classList.add('modal-open'); 
 
         const modalTitle = this.shadowRoot.querySelector('.modal-title');
-        modalTitle.textContent = this.newTaskInput.value || 'New Task';
+        if(editName !== null){
+            modalTitle.textContent = editName;
+            this.newTaskInput.value = editName;
+        }
+        else{
+            modalTitle.textContent = this.newTaskInput.value || 'New Task';
+        }
+        
     }
 
     closeModal() {
@@ -149,7 +156,7 @@ class TaskScript extends HTMLElement {
         this.closeModal();
         const editBtn = newTask.querySelector('.editBtn');
         const deleteBtn = newTask.querySelector('.deleteBtn');
-        editBtn.addEventListener('click', () => this.editTask(taskId, newTaskName));
+        editBtn.addEventListener('click', () => this.editTask(newTask));
         deleteBtn.addEventListener('click', () => this.deleteTask(newTask));
 
         this.taskContainer.appendChild(newTask);
@@ -211,13 +218,11 @@ class TaskScript extends HTMLElement {
         return luminance < 0.5 ? 'color: white;' : '';
     }
 
-    editTask(taskId, taskText) {
-        const taskLabel = this.shadowRoot.querySelector(`#${taskId} + label`);
-        const newTaskText = prompt('Edit task:', taskText);
-
-        if (newTaskText !== null) {
-            taskLabel.textContent = newTaskText;
-        }
+    editTask(taskElement) {
+        console.log(taskElement);
+         const taskTitle = taskElement.querySelector('.taskMain label').textContent;
+        this.deleteTask(taskElement);
+        this.openModal(taskTitle);
     }
 
     deleteTask(taskElement) {
