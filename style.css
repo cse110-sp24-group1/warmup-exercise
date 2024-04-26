@@ -36,7 +36,6 @@ footer {
 } 
 
 /* Task List */
-
 .confetti{
     position: absolute;
     display: block;
@@ -50,7 +49,6 @@ footer {
         transform: translate3d(0,0,0);
         opacity: 1;
     }
-    
 }
 .taskContainer {
     margin-top: 1em;
@@ -98,7 +96,7 @@ footer {
     word-wrap: break-word;
     margin-left: 27px;
 }
-.taskItem .taskDesc, .taskItem .taskDate {
+.taskItem .taskDesc, .taskItem .taskLabel {
     margin-left: 27px;
 }
 .taskItem .taskFooter {
@@ -112,9 +110,21 @@ footer {
     border-radius: 5px;
     font-size: 12px;
     padding: 2px 5px;
+    display: inline-block;
+}
+.taskItem .taskLabel {
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 2px 5px;
+    margin-right: 5px;
 }
 .taskItem .noDate {
     border: none;
+}
+.taskItem .datelabel {
+    display: flex; 
+    align-items: center; 
 }
 .taskItem .editBtn, .taskItem .deleteBtn {
     background: none;

@@ -16,13 +16,32 @@ class TaskScript extends HTMLElement {
                     <h2 class="modal-title"></h2>
                 </div>
                 <form id="modalForm">
-                    <div class="modalLabelsInput"> 
+                    <div class="modalLabelsInput">
                         <label for="taskDescription">Description:</label>
                         <textarea id="taskDescription" onfocus="this.value=''" name="taskDescription"></textarea>
                     </div>
                     <div class="modalLabelsInput">
                         <label for="taskDueDate">Due Date:</label>
                         <input type="date" id="taskDueDate">
+                    </div>
+                    <div class="modalLabelsInput"> 
+                        <label for="taskLabel">Label:</label>
+                        <select id="taskLabel" name="taskLabel">
+                            <option value="Default">Select Label</option>
+                            <option value="Work">Work</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Health and Fitness">Health and Fitness</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Social">Social</option>
+                            <option value="Travel">Travel</option>
+                            <option value="School">School</option>
+                            <option value="createNew">Create New Label</option>
+                        </select>
+                        <input type="text" id="newLabelInput" placeholder="New Label" style="display: none;">
+                    </div>
+                    <div class="modalLabelsInput">
+                        <label for="taskColor">Color Label:</label>
+                        <input type="color" id="taskColor" name="taskColor">
                     </div>
                     <button class="subButton" type="submit">Submit</button>
                 </form>
@@ -50,6 +69,16 @@ class TaskScript extends HTMLElement {
             event.preventDefault();
             this.submitModal();
         });            
+
+        // Event listener for showing or hiding the new label input
+        this.shadowRoot.getElementById('taskLabel').addEventListener('change', () => {
+            const newLabelInput = this.shadowRoot.getElementById('newLabelInput');
+            if (this.shadowRoot.getElementById('taskLabel').value === 'createNew') {
+                newLabelInput.style.display = 'inline-block';
+            } else {
+                newLabelInput.style.display = 'none';
+            }
+        });
     }
 
     openModal() {
@@ -73,12 +102,24 @@ class TaskScript extends HTMLElement {
         const newTaskText = taskDescriptionInput.value.trim();
         const dueDate = this.taskDueDate.value; 
         const newTaskName = this.newTaskInput.value;
+        let taskLabel = modalForm.querySelector('#taskLabel').value;
+        const taskColor = modalForm.querySelector('#taskColor').value;
 
-        if (newTaskText === '') return;
+        if (newTaskText === '')return;
+
+        
+        if (taskLabel === 'createNew'){
+            const newLabelInput = modalForm.querySelector('#newLabelInput');
+            const newLabel = newLabelInput.value.trim();
+
+            if(newLabel === '') return;
+            taskLabel = newLabel;
+        }
 
         const taskId = `task${this.taskContainer.children.length + 1}`;
         const newTask = document.createElement('section');
         newTask.classList.add('taskItem');
+        newTask.dataset.label = taskLabel;
         newTask.innerHTML = `
             <div class="taskMain">
                 <input type="checkbox" id="${taskId}">
@@ -88,11 +129,16 @@ class TaskScript extends HTMLElement {
                 <label>${newTaskText}</label>
             </div>
             <div class="taskFooter">
-                ${dueDate ? `
-                    <div class="taskDate">
-                        <label>🗓️ ${dueDate}</label>
-                    </div>
-                ` : '<div class="taskDate noDate"><label></label></div>'}
+                <div class="datelabel">
+                    <div class="taskLabel" style="background-color: ${taskColor}; border-radius: 5px; padding: 3px 6px; ${
+                        this.calculateTextColor(taskColor)
+                    }">${taskLabel}</div>
+                    ${dueDate ? `
+                        <div class="taskDate">
+                            <label>🗓️ ${dueDate}</label>
+                        </div>
+                    ` : '<div class="taskDate noDate"><label></label></div>'}
+                </div>
                 <div class="taskButtons">
                     <button class="editBtn">✏️</button>
                     <button class="deleteBtn">🗑️</button>
@@ -122,6 +168,7 @@ class TaskScript extends HTMLElement {
             }
         });
     }
+    
     animateConfetti(target){
         const confettiCount = 100;
         const fragment = document.createDocumentFragment();
@@ -150,6 +197,19 @@ class TaskScript extends HTMLElement {
         }, 700);
     }
 
+    calculateTextColor(color){
+        // Convert hex color to RGB
+        const hex = color.substring(1); // Remove #
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+
+        // Calculate relative luminance
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+        // If the brightness is less than 50%, return white, otherwise, return black
+        return luminance < 0.5 ? 'color: white;' : '';
+    }
 
     editTask(taskId, taskText) {
         const taskLabel = this.shadowRoot.querySelector(`#${taskId} + label`);
