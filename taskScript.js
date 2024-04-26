@@ -219,36 +219,12 @@ class TaskScript extends HTMLElement {
     }
 
     editTask(taskElement) {
-        // const taskLabel = this.shadowRoot.querySelector(`#${taskId} + label`);
-        // const newTaskText = prompt('Edit task:', taskText);
-
-        // if (newTaskText !== null) {
-        //     taskLabel.textContent = newTaskText;
-        // }
         console.log(taskElement);
-        // console.log(typeof(taskElement));
-        //const taskLabel = taskElement.getAttribute('data-label');
          const taskTitle = taskElement.querySelector('.taskMain label').textContent;
-        // const taskDescription = taskElement.querySelector('.taskDesc label').textContent;
-        // const taskDate = taskElement.querySelector('.taskDate label').textContent;  
-
         this.deleteTask(taskElement);
         this.openModal(taskTitle);
-
-
-
-
     }
-        // console.log(taskElement);
-        // // console.log(typeof(taskElement));
-        // const taskLabel = taskElement.getAttribute('data-label');
-        // const taskTitle = taskElement.querySelector('.taskMain label').textContent;
-        // const taskDescription = taskElement.querySelector('.taskDesc label').textContent;
-        // const taskDate = taskElement.querySelector('.taskDate label').textContent;  
 
-        // this.deleteTask(taskElement);
-
-        // this.openModal();
     deleteTask(taskElement) {
         taskElement.remove();
     }
