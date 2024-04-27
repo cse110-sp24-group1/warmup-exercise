@@ -2,7 +2,7 @@
 
 ## Web App Link: https://cse110-sp24-group1.github.io/warmup-exercise/
 
-## Youtube Link
+## Youtube Link: https://www.youtube.com/watch?v=EuFMsrXVV-c
 
 ## Features
 - [x] Create tasks, add task description, and due date
