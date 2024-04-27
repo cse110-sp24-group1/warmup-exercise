@@ -1,87 +1,155 @@
+/* Color Palette */
 :root {
-    --rich-black: #000814ff;
-    --oxford-blue: #001d3dff;
-    --yale-blue: #003566ff;
-    --mikado-yellow: #ffc300ff;
-    --gold: #ffd60aff;
+    --isabelline: #edede9ff;
+    --timberwolf: #cb997e;
+    --linen: #f5ebe0ff;
+    --champagne-pink: #e3d5caff;
+    --pale-dogwood: #d5bdafff;
 }
+
+/* Main Page */
 body {
     font-family: "Cormorant Garamond", serif;
     margin: 0;
     padding: 0;
-    background-color: var(--rich-black);
-    color: var(--gold);
+    background-color: var(--isabelline);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 header {
     font-family: "Platypi", serif;
-    background-color: var(--oxford-blue);
-    color: var(--mikado-yellow);
     text-align: center;
-    padding: 10px 0;
     width: 100%;
+    color: black;
 }
 main {
     flex: 1;
-    margin: 30px;
+    margin: 10px;
 }
 footer {
-    background-color: var(--oxford-blue);
-    color: var(--mikado-yellow);
     text-align: center;
     padding: 10px 0;
     bottom: 0;
     width: 100%;
+    color: black;
 } 
 
+/* Task List */
+.confetti{
+    position: absolute;
+    display: block;
+    width: 3px;
+    height: 8px;
+    background: red;
+    opacity: 0
+}
+@keyframes bang {
+    from{
+        transform: translate3d(0,0,0);
+        opacity: 1;
+    }
+}
+.taskContainer {
+    margin-top: 1em;
+}
 .taskItem {
-    margin-left: 5em;
-    margin-right: 5em;
+    margin-left: 3em;
+    margin-right: 3em;
     margin-bottom: 1em;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    flex-direction: column;
     border: 1px solid white;
+    border-radius: 5px;
     padding: 10px;
+    background-color: white;
     transition: background-color 0.3s;
 }
 .taskItem:hover {
-    background-color: var(--yale-blue);
+    border: 2px solid lightgrey;
 }
 .taskItem input[type="checkbox"] {
     margin-right: 10px;
+    cursor: pointer;
 }
 .taskItem label {
     flex-grow: 1;
 }
-.taskItem input[type="checkbox"]:checked ~ * {
-    opacity: 0.5;
-    pointer-events: none;
+.taskItem .taskMain {
+    display: flex;
+    align-items: center;
 }
-.taskItem button {
-    background-color: var(--gold);
-    color: var(--rich-black);
-    padding: 5px 10px;
+.taskItem .taskMain label {
+    color: black;
+    flex-grow: 1;
+    font-size: 18px;
+    word-wrap: break-word;
+}
+.taskItem .taskDesc {
+    display: flex; 
+    align-items: center;
+    color: #666;
+    margin-top: 5px;
+    font-size: 15px;
+    flex-grow: 1; 
+    word-wrap: break-word;
+    margin-left: 27px;
+}
+.taskItem .taskDesc, .taskItem .taskLabel {
+    margin-left: 27px;
+}
+.taskItem .taskFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+.taskItem .taskDate {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 2px 5px;
+    display: inline-block;
+}
+.taskItem .taskLabel {
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s;
+    font-size: 12px;
+    padding: 2px 5px;
+    margin-right: 5px;
 }
-.taskItem button:hover {
-    background-color: var(--mikado-yellow); 
+.taskItem .noDate {
+    border: none;
+}
+.taskItem .datelabel {
+    display: flex; 
+    align-items: center; 
+}
+.taskItem .editBtn, .taskItem .deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+    justify-content: flex-end;
+    /* filter: grayscale(100%); */ /*Makes the pencil and trashcan emoji grey*/
+}
+.taskButtons button:hover {
+    cursor: pointer;
 }
 
+/* Add a Task Form*/
 #taskForm {
     display: flex;
     justify-content: center;
+    font-family: sans-serif;
+    font-size: 14px;
 }
 #taskForm button {
     margin-left: 10px;
-    background-color: var(--gold);
-    color: var(--rich-black);
+    background-color: var(--pale-dogwood);
+    color: black;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -89,15 +157,116 @@ footer {
     transition: background-color 0.3s;
 }
 #taskForm button:hover {
-    background-color: var(--mikado-yellow);
+    background-color: var(--timberwolf);
 }
 #taskForm input[type="text"] {
     padding: 5px 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background: white;
 }
 #taskForm input[type="text"]:focus {
     outline: none;
-    border-color: var(--mikado-yellow);
+    border-color: var(--pale-dogwood);
 }
 
+/* Modal Form */
+#modal.modal {
+    width: 30%;
+    height: 50%;
+    background-color: var(--linen);
+    border-radius: 10px;
+    align-items: center;
+    display: none;
+    font-size: 0.9em; 
+}
+@media (max-width: 800px) {
+    #modal.modal {
+        width: 50%;
+        height: 50%;
+    }
+}
+#modalForm {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Cormorant Garamond", serif;
+    margin: 5%;
+}
+#modalForm textarea {
+    width: 93%;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+#modalForm input[type="date"] {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+#modalForm textarea:focus, #modalForm input[type="date"]:focus {
+    outline: none;
+    border-color: var(--pale-dogwood);
+}
+#modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    overflow: auto;
+}
+.modal-open:before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px); 
+}
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto; 
+    margin: 0% 0% 5% 0%;
+}
+.modal-header {
+    align-items: center;
+    padding: 10px 10px 0px 10px;
+}
+.modal-title {
+    color: black;
+    text-align: center;
+    font-family: "Platypi", serif;
+}
+.close-modal {
+    position: absolute;
+    font-weight: bold; 
+    top: 0%;
+    right: 4%;
+    font-size: 2.5em;
+    cursor: pointer;
+}
+.subButton {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: var(--pale-dogwood);
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+.subButton:hover {
+    background-color: var(--timberwolf);
+}
